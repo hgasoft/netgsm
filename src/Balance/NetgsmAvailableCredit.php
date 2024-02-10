@@ -44,20 +44,21 @@ class NetgsmAvailableCredit extends NetgsmApiClient
      */
     public function parseResponse(): ?string
     {
-        $result = explode(' ', $this->response);
+        $result = json_decode($this->response);
+        //$result = explode(' ', $this->response);
 
-        if (empty($result[0])) {
+        if (!isJson($result)) {
             throw new NetgsmException(NetgsmErrors::NETGSM_GENERAL_ERROR);
         }
 
-        $code = $result[0];
+//        $code = $result[0];
 
-        if (! in_array($code, $this->successCodes)) {
-            $message = $this->errorCodes[$code] ?? NetgsmErrors::SYSTEM_ERROR;
-            throw new NetgsmException($message, $code);
-        }
+//        if (! in_array($code, $this->successCodes)) {
+//            $message = $this->errorCodes[$code] ?? NetgsmErrors::SYSTEM_ERROR;
+//            throw new NetgsmException($message, $code);
+//        }
 
-        return $result[1];
+        return $result->balance[0]->amount ?? null;
     }
 
     /**
