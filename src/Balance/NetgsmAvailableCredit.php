@@ -47,7 +47,7 @@ class NetgsmAvailableCredit extends NetgsmApiClient
         $result = json_decode($this->response);
         //$result = explode(' ', $this->response);
 
-        if (isset($result->balance)) {
+        if (!isset($result->balance)) {
             throw new NetgsmException(NetgsmErrors::NETGSM_GENERAL_ERROR);
         }
 
